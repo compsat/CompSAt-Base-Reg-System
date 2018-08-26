@@ -410,7 +410,7 @@ public class AttendanceSystem extends JFrame {
           			FileWriter fw = new FileWriter(file.getAbsoluteFile(), true); // boolean: append mode
           			BufferedWriter bw = new BufferedWriter(fw);
                 if (!fileExistedBefore) {
-                    bw.append("ID Number,Last Name,First Name,MI,Nickname,Year,Course,School,Birthday,Mobile,Email,Old Member?, Scholar?, ,Timestamp");
+                    bw.append("ID Number,Last Name,First Name,MI,Nickname,Year,Course,School,Birthday,Mobile,Email,Old Member?, Scholar?");
                 }
                 bw.newLine();
           			bw.append(data);
