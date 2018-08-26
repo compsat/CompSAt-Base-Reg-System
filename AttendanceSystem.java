@@ -17,6 +17,10 @@ import java.util.Arrays;
 import java.awt.Font;
 import java.io.File;
 import java.awt.GraphicsEnvironment;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class AttendanceSystem extends JFrame {
     Field idNumber;
@@ -42,6 +46,9 @@ public class AttendanceSystem extends JFrame {
 
     HashMap<String, String[]> oldMembers;
     SchoolSorter sorter;
+
+    Timestamp timestamp;
+    SimpleDateFormat sdf;
 
     public AttendanceSystem() {
         setUpOldMemberDictionary();
@@ -207,8 +214,6 @@ public class AttendanceSystem extends JFrame {
                 if (idNumber.getText().length() == 6 && oldMembers.containsKey(idNumber.getText())){
                     String[] data = oldMembers.get(idNumber.getText());
                     String[] birthday = data[7].split("/");
-                    System.out.println(Arrays.toString(birthday));
-                    System.out.println(Arrays.toString(data));
 
                     lastName.setText(data[0]);
                     firstName.setText(data[1]);
@@ -383,6 +388,9 @@ public class AttendanceSystem extends JFrame {
         try {
             String isOldMember = oldMember.isSelected() ? "YES" : "NO";
             String scholarStatus = isScholar.isSelected() ? "YES" : "NO";
+            String fileDate = "RecWeek-Registration_" + returnDateToday() + ".csv";
+            sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+            timestamp = new Timestamp(System.currentTimeMillis());
 
             String data =
                 idNumber.getText() + "," +
@@ -397,9 +405,10 @@ public class AttendanceSystem extends JFrame {
                 mobileNumber.getText() + "," +
                 email.getText() + "," +
                 isOldMember + "," +
-                scholarStatus;
+                scholarStatus + "," + "," +
+                sdf.format(timestamp);
 
-                File file = new File("output.csv");
+                File file = new File(fileDate);
                 boolean fileExistedBefore = true;
           			// if file doesnt exists, then create it
           			if (!file.exists()) {
@@ -433,6 +442,16 @@ public class AttendanceSystem extends JFrame {
 
         if (birthDay.getText().replaceAll("\\s+","").length() < 2)
             birthDay.setText("0" + birthDay.getText().replaceAll("\\s+",""));
+    }
+
+    public String returnDateToday()
+    {
+        Calendar cal = Calendar.getInstance();
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH)+1;
+        int year = cal.get(Calendar.YEAR);
+        String dateToday = Integer.toString(month)+"_"+Integer.toString(day)+"_"+Integer.toString(year);
+        return dateToday;
     }
 
     public static void main (String[] args) {
