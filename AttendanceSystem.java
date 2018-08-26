@@ -207,8 +207,6 @@ public class AttendanceSystem extends JFrame {
                 if (idNumber.getText().length() == 6 && oldMembers.containsKey(idNumber.getText())){
                     String[] data = oldMembers.get(idNumber.getText());
                     String[] birthday = data[7].split("/");
-                    System.out.println(Arrays.toString(birthday));
-                    System.out.println(Arrays.toString(data));
 
                     lastName.setText(data[0]);
                     firstName.setText(data[1]);
